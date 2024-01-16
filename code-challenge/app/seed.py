@@ -3,21 +3,21 @@ import random
 from app import app  # Import your Flask app instance
 from models import db, Power, Hero, HeroPower  # Import your SQLAlchemy models
 
-
 with app.app_context():
-
     powers_data = [
-        {"name": "super strength",
-            "description": "gives the wielder super-human strengths"},
+        {"name": "super strength", "description": "gives the wielder super-human strengths"},
         {"name": "flight", "description": "gives the wielder the ability to fly through the skies at supersonic speed"},
-        {"name": "super human senses",
-            "description": "allows the wielder to use her senses at a super-human level"},
+        {"name": "super human senses", "description": "allows the wielder to use her senses at a super-human level"},
         {"name": "elasticity", "description": "can stretch the human body to extreme lengths"}
     ]
 
     for power_info in powers_data:
-        power = Power(**power_info)
-        db.session.add(power)
+        existing_power = Power.query.filter_by(name=power_info['name']).first()
+        if existing_power:
+            print(f"Power '{power_info['name']}' already exists. Skipping.")
+        else:
+            power = Power(**power_info)
+            db.session.add(power)
 
     # Seed heroes
     heroes_data = [
