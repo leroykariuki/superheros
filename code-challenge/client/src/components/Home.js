@@ -5,7 +5,7 @@ function Home() {
   const [heros, setHeros] = useState([]);
 
   useEffect(() => {
-    fetch("/heroes")
+    fetch("http://127.0.0.1:5555/heroes")
       .then((r) => r.json())
       .then(setHeros);
   }, []);
